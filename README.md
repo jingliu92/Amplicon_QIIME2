@@ -50,3 +50,41 @@ qiime cutadapt trim-single \
   --i-data Output/3_trim.qza \
   --o-visualization Output/3_trim.qzv
   
+```
+qiime tools import \
+  --type 'SampleData[PairedEndSequencesWithQuality]' \
+  --input-path sample_list.txt \
+  --input-format PairedEndFastqManifestPhred33 \
+  --output-path Output/raw_data.qza
+
+# Visualize the raw dataset
+qiime demux summarize \
+  --i-data Output/raw_data.qza \
+  --o-visualization Output/raw_data.qzv
+  
+ qiime cutadapt trim-paired \
+  --i-demultiplexed-sequences Output/raw_data.qza \
+  --p-cores 16 \
+  --p-front-f ACTCCTACGGGAGGCAGCAG \
+  --p-front-r GGACTACHVGGGTWTCTAAT \
+  --p-match-adapter-wildcards \
+  --p-match-read-wildcards \
+  --p-no-indels \
+  --p-overlap 10 \
+  --o-trimmed-sequences Output/data_trim.qza \
+  --verbose
+  
+  qiime demux summarize \
+  --i-data Output/data_trim.qza \
+  --o-visualization Output/data_trim.qzv
+  ### Clean data
+  
+  qiime vsearch join-pairs \
+  --i-demultiplexed-seqs Output/data_trim.qza \
+  --o-joined-sequences  Output/data_joined.qza \
+  --verbose
+  
+  qiime demux summarize \
+ --i-data Output/data_joined.qza \
+ --o-visualization Output/data_joined.qzv
+  ```
