@@ -53,7 +53,7 @@ qiime cutadapt trim-single \
 ```
 qiime tools import \
   --type 'SampleData[PairedEndSequencesWithQuality]' \
-  --input-path sample_list.txt \
+  --input-path sample_list1.txt \
   --input-format PairedEndFastqManifestPhred33 \
   --output-path Output/raw_data.qza
 
@@ -65,8 +65,8 @@ qiime demux summarize \
  qiime cutadapt trim-paired \
   --i-demultiplexed-sequences Output/raw_data.qza \
   --p-cores 16 \
-  --p-front-f ACTCCTACGGGAGGCAGCAG \
-  --p-front-r GGACTACHVGGGTWTCTAAT \
+  --p-front-f CCTAYGGGRBGCASCAG \
+  --p-front-r GGACTACNNGGGTATCTAAT \
   --p-match-adapter-wildcards \
   --p-match-read-wildcards \
   --p-no-indels \
@@ -88,3 +88,31 @@ qiime demux summarize \
  --i-data Output/data_joined.qza \
  --o-visualization Output/data_joined.qzv
   ```
+  
+  qiime tools export \
+  --input-path Output/data_joined.qza \
+  --output-path Output/data_joined
+
+# Data 6
+```
+qiime vsearch join-pairs \
+  --i-demultiplexed-seqs Output/raw_data.qza \
+  --o-joined-sequences  Output/data_joined.qza \
+  --verbose
+  
+qiime tools export \
+  --input-path Output/data_joined.qza \
+  --output-path Output/data_joined
+  
+   qiime cutadapt trim-paired \
+  --i-demultiplexed-sequences Output/raw_data.qza \
+  --p-cores 16 \
+  --p-front-f GTGCCAGCMGCCGCGGTAA \
+  --p-front-r GGACTACHVGGGTWTCTAAT \
+  --p-match-adapter-wildcards \
+  --p-match-read-wildcards \
+  --p-discard-untrimmed \
+  --p-no-indels \
+  --p-overlap 10 \
+  --o-trimmed-sequences Output/data_trim.qza \
+  --verbose 
