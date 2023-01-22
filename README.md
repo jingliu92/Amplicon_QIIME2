@@ -12,13 +12,13 @@ Import seq data to qiime2 extract V4 region
 ```
 qiime tools import \
   --type 'SampleData[SequencesWithQuality]' \
-  --input-path sample_list.txt \
-  --output-path Output/3_demux.qza \
+  --input-path sample_list_all.txt \
+  --output-path Output/data.qza \
   --input-format SingleEndFastqManifestPhred33V2
 
 qiime demux summarize \
-  --i-data Output/3_demux.qza \
-  --o-visualization Output/3_demux.qzv
+  --i-data Output/data.qza \
+  --o-visualization Output/data.qzv
 
 qiime cutadapt trim-single \
   --i-demultiplexed-sequences Output/3_demux.qza \
@@ -116,3 +116,48 @@ qiime tools export \
   --p-overlap 10 \
   --o-trimmed-sequences Output/data_trim.qza \
   --verbose 
+
+
+qiime dada2 denoise-single \
+  --i-demultiplexed-seqs Output/data.qza \
+  --p-trim-left 13 \
+  --p-trunc-len 240 \
+  --o-representative-sequences Output/rep-seqs.qza \
+  --o-table Output/table.qza \
+  --o-denoising-stats Output/stats.qza \
+  --verbose
+  
+  qiime metadata tabulate \
+  --m-input-file Output/stats.qza \
+  --o-visualization Output/stats.qzv
+
+qiime feature-table summarize \
+--i-table Output/table.qza \
+--o-visualization Output/table.qzv
+
+qiime phylogeny align-to-tree-mafft-fasttree \
+  --i-sequences Output/rep-seqs.qza \
+  --o-alignment Output/aligned-rep-seqs.qza \
+  --o-masked-alignment Output/masked-aligned-rep-seqs.qza \
+  --o-tree Output/unrooted-tree.qza \
+  --o-rooted-tree Output/rooted-tree.qza
+  
+  qiime tools export \
+  --input-path Output/rep-seqs.qza \
+  --output-path Output/rep_seqs
+  
+  qiime tools export \
+  --input-path Output/table.qza \
+  --output-path Output/feature_table
+
+biom convert \
+  -i Output/feature_table/feature-table.biom \
+  -o Output/feature_table/feature_table.txt \
+  --to-tsv
+  
+  qiime tools export \
+  --input-path Output/rooted-tree.qza \
+  --output-path Output/rooted_tree
+
+
+
