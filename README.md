@@ -13,6 +13,11 @@ A comprehensive tutorial for 16S amplicon sequencing data analysis, covering eve
 
 ---
 
+## Installing QIIME 2
+Follow the step-by-step tutorial in [install.md](https://github.com/jingliu92/Amplicon_QIIME2/blob/main/install.md) for detailed installation instructions.  
+
+For additional details, refer to the official QIIME 2 website: [QIIME 2 Installation Guide](https://docs.qiime2.org/2024.10/install/).  
+
 ## Workflow for Analyzing 16S rRNA Data in QIIME 2
 1. **Input Preparation**  
    - Import raw sequencing data (FASTQ files) along with sample metadata into the QIIME 2 framework.  
@@ -34,7 +39,15 @@ A comprehensive tutorial for 16S amplicon sequencing data analysis, covering eve
 
 ---
 
-## Installing QIIME 2
-Follow the step-by-step tutorial in [install.md](https://github.com/jingliu92/Amplicon_QIIME2/blob/main/install.md) for detailed installation instructions.  
+## What You'll Learn and Achieve
+By following this tutorial, you will:
 
-For additional details, refer to the official QIIME 2 website: [QIIME 2 Installation Guide](https://docs.qiime2.org/2024.10/install/).  
+1. Master the analysis and visualization of microbiome data, specifically for 16S rRNA amplicon sequencing.
+   
+3. Transform raw sequencing data into amplicon sequence variants (ASV) table ready for downstream analysis.
+   
+5. Explore different analysis methods, including taxonomic classification, diversity analysis, and statistical testing, supported by publication-ready visualizations.
+   
+7. Complete your entire project efficiently, processing and analyzing data approximately 3 hours.
+   
+This tutorial equips you with practical skills to confidently analyze microbiome datasets and present your results effectively.
