@@ -34,6 +34,6 @@
 ---
 
 ## Installing QIIME 2
-Follow the step-by-step tutorial in **install.Rmd** for detailed installation instructions.  
+Follow the step-by-step tutorial in [install.md](https://github.com/jingliu92/Amplicon_QIIME2/blob/main/install.md) for detailed installation instructions.  
 
 For additional details, refer to the official QIIME 2 website: [QIIME 2 Installation Guide](https://docs.qiime2.org/2024.10/install/).  
