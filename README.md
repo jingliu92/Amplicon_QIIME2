@@ -1,5 +1,6 @@
 
 # QIIME 2 Pipeline
+---
 A comprehensive tutorial for 16S amplicon sequencing data analysis, covering every step from raw sequencing data processing to results visualization and statistical analysis. This repository includes step-by-step instructions for quality control, taxonomic classification, diversity analysis, and generating publication-ready visualizations using QIIME 2 and complementary tools.
 
 ## File Description
