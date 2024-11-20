@@ -1,11 +1,17 @@
 # QIIME2 Pipeline
 
 ## File description
-Readme.md # Introduction of QIIME2
+Readme.md # Introduction of QIIME2 Pipeline
+
+install.Rmd # Step-by-step tutorial for installation
 pipeline.sh # Command-line analysis for Linux (slurm)
+
 data/ # Example raw sequncing data
+
 result/ # Example result data
+
 visulization/R.Rmd # Interactive diversity analysis in R and output reproducible report in HTML format
+
 figures/ # Example of generated figures
 
 ## Workflow for Analyzing 16S rRNA Data in QIIME 2:
@@ -26,4 +32,10 @@ figures/ # Example of generated figures
 
 6. Statistical Testing:
    * Conduct differential abundance testing to identify taxa associated with specific conditions or treatments.
+
+## Installing QIIME2
+
+Check the step-by-step tutorial [here]. For more information please refer to QIIM2 officical website: https://docs.qiime2.org/2024.10/install/
+
+
 
