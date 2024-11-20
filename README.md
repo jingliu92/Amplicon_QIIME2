@@ -3,11 +3,11 @@
 
 ## File Description
 - **Readme.md**: Introduction to the QIIME 2 Pipeline.  
-- **install.Rmd**: Step-by-step tutorial for installation.  
+- **install.md**: Step-by-step tutorial for installation.  
 - **pipeline.sh**: Command-line analysis script for Linux (Slurm environment).  
 - **data/**: Folder containing example raw sequencing data.  
 - **result/**: Folder containing example result data.  
-- **visualization/R.Rmd**: Interactive diversity analysis in R, with outputs in a reproducible HTML format.  
+- **visualization/R.md**: Interactive diversity analysis in R, with outputs in a reproducible HTML format.  
 - **figures/**: Folder containing examples of generated figures.  
 
 ---
