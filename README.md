@@ -1,41 +1,39 @@
-# QIIME2 Pipeline
 
-## File description
-Readme.md # Introduction of QIIME2 Pipeline
+# QIIME 2 Pipeline
 
-install.Rmd # Step-by-step tutorial for installation
-pipeline.sh # Command-line analysis for Linux (slurm)
+## File Description
+- **Readme.md**: Introduction to the QIIME 2 Pipeline.  
+- **install.Rmd**: Step-by-step tutorial for installation.  
+- **pipeline.sh**: Command-line analysis script for Linux (Slurm environment).  
+- **data/**: Folder containing example raw sequencing data.  
+- **result/**: Folder containing example result data.  
+- **visualization/R.Rmd**: Interactive diversity analysis in R, with outputs in a reproducible HTML format.  
+- **figures/**: Folder containing examples of generated figures.  
 
-data/ # Example raw sequncing data
+---
 
-result/ # Example result data
+## Workflow for Analyzing 16S rRNA Data in QIIME 2
+1. **Input Preparation**  
+   - Import raw sequencing data (FASTQ files) along with sample metadata into the QIIME 2 framework.  
 
-visulization/R.Rmd # Interactive diversity analysis in R and output reproducible report in HTML format
+2. **Quality Control**  
+   - Perform read quality filtering, trimming, and denoising using tools like DADA2 or Deblur to generate high-quality representative sequences and feature tables.  
 
-figures/ # Example of generated figures
+3. **Taxonomic Classification**  
+   - Assign taxonomy to Operational Taxonomic Units (OTUs) or Amplicon Sequence Variants (ASVs) using reference databases such as SILVA, Greengenes, or GTDB.  
 
-## Workflow for Analyzing 16S rRNA Data in QIIME 2:
-1. Input Preparation:
-   * Import raw sequencing data (FASTQ files) along with sample metadata into the QIIME 2 framework.
-  
-2. Quality Control:
-   * Perform read quality filtering, trimming, and denoising using tools like DADA2 or Deblur to generate high-quality representative sequences and feature tables.
+4. **Diversity Analysis**  
+   - Evaluate **alpha diversity** (within-sample metrics, e.g., Shannon Index) and **beta diversity** (between-sample metrics, e.g., Bray-Curtis dissimilarity) to explore community structure and differences.  
 
-3. Taxonomic Classification:
-   * Assign taxonomy to operational taxonomic units (OTUs) or amplicon sequence variants (ASVs) using reference databases such as SILVA, Greengenes, or GTDB.
+5. **Visualization**  
+   - Generate intuitive plots, such as taxonomic composition plots, rarefaction curves, and PCoA plots for diversity analysis.  
 
-4. Diversity Analysis:
-   * valuate alpha diversity (within-sample metrics, e.g., Shannon Index) and beta diversity (between-sample metrics, e.g., Bray-Curtis dissimilarity) to explore community structure and differences.
+6. **Statistical Testing**  
+   - Conduct differential abundance testing to identify taxa associated with specific conditions or treatments.  
 
-5. Visualization:
-   * Generate intuitive, interactive plots, such as taxonomic composition plots, rarefaction curves, and PCOA plots.
+---
 
-6. Statistical Testing:
-   * Conduct differential abundance testing to identify taxa associated with specific conditions or treatments.
+## Installing QIIME 2
+Follow the step-by-step tutorial in **install.Rmd** for detailed installation instructions.  
 
-## Installing QIIME2
-
-Check the step-by-step tutorial [here]. For more information please refer to QIIM2 officical website: https://docs.qiime2.org/2024.10/install/
-
-
-
+For additional details, refer to the official QIIME 2 website: [QIIME 2 Installation Guide](https://docs.qiime2.org/2024.10/install/).  
