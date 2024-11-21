@@ -7,34 +7,24 @@ If using a high-performance computing (HPC) server for QIIME 2 analysis:
 
 ### 1. Access the Server
 - Log in to your HPC server using SSH:
-  ```bash
+  ```
   ssh <username>@<hpc-server-address>
   ```
   Example:
-  ```bash
-  ssh jdoe@hpc.university.edu
   ```
-
-- If required, load the QIIME 2 module or activate the environment:
-  ```bash
-  module load qiime2/2021.2
+  ssh jliu@hpc.university.edu
   ```
-  Or, if using Conda:
-  ```bash
-  conda activate qiime2-2021.2
-  ```
-
 ---
 
 ## Setting up the Working Directory
 Create and organize your working directory for hands-on analysis:
 1. **Create a New Directory**:
-   ```bash
-   mkdir ~/qiime2_analysis
-   cd ~/qiime2_analysis
+   ```
+   mkdir ProjectName
+   cd ProjectName
    ```
 2. **Organize Subdirectories**:
-   ```bash
+   ```
    mkdir raw_data metadata results temp
    ```
    - `raw_data/`: Store your FASTQ files.
@@ -85,7 +75,7 @@ Before running the pipeline, ensure you have the following prepared:
 - **Greengenes2** (Last updated:Sep.2024):
   ```
   wget https://ftp.microbio.me/greengenes_release/current/2024.09.seqs.fna.gz
-  wget https://ftp.microbio.me/greengenes_release/current/
+  wget https://ftp.microbio.me/greengenes_release/current/2024.09.taxonomy.asv.tsv.gz
   ```
 - **RDP** (Last updated:Aug.2023):
   ```
@@ -94,21 +84,57 @@ Before running the pipeline, ensure you have the following prepared:
 
 ---
 
-
 ### Upload Files to the Server**:
    Use `scp` or `globus` to upload your raw data and metadata file:
-   ```bash
+   ```
    scp /local/path/to/raw_data/* <username>@<hpc-server-address>:~/qiime2_analysis/raw_data/
    scp /local/path/to/metadata.tsv <username>@<hpc-server-address>:~/qiime2_analysis/metadata/
    ```
 
 ---
+## Active QIIME2
+- Load the QIIME 2 module if it's already installed in the HPC.
+  ```
+  module avail # 
+  module load qiime2
+  ```
+- Or, if using Conda:
+  ```
+  conda activate qiime2-2024.10
+  ```
 
 ## Pipeline Workflow
 
 ### 1. Input Preparation
-- Import raw sequencing data:
-  ```bash
+- Create a manifest file to import FASTQ files into QIIME2
+  ```
+  # Create a manifest file to import FASTQ files into QIIME 2
+# Navigate to the directory containing the fastq.gz files
+cd /path/to/fastq/files
+
+# Create the header for the manifest file
+echo "sample-id,absolute-filepath,direction" > manifest.csv
+
+# Add forward reads to the manifest file
+for i in *_R1_001.fastq.gz; do 
+    echo "${i/_S*/},$PWD/$i,forward" >> manifest.csv
+done
+
+# Add reverse reads to the manifest file
+for i in *_R2_001.fastq.gz; do 
+    echo "${i/_S*/},$PWD/$i,reverse" >> manifest.csv
+done
+
+# Replace underscores in sample IDs with dots (optional, for formatting consistency)
+awk 'BEGIN{FS=OFS=","} {gsub(/_/, ".", $1); print}' manifest.csv > manifest_cleaned.csv
+
+# Verify the manifest file
+cat manifest_cleaned.csv
+```
+
+- 
+- Import raw sequencing data (paired-end):
+  ```
   qiime tools import \
     --type 'SampleData[PairedEndSequencesWithQuality]' \
     --input-path raw_data/ \
