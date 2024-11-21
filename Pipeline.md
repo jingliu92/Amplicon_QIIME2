@@ -1,8 +1,36 @@
-
-
-# QIIME 2 16S rRNA Sequencing Analysis Pipeline
+# QIIME2 16S rRNA Sequencing Analysis Pipeline
 
 ---
+
+## Logging on to the HPC Server
+If using a high-performance computing (HPC) server for QIIME 2 analysis:
+
+### 1. Access the Server
+- Log in to your HPC server using SSH:
+  ```
+  ssh <username>@<hpc-server-address>
+  ```
+  Example:
+  ```
+  ssh jliu@hpc.university.edu
+  ```
+---
+
+## Setting up the Working Directory
+Create and organize your working directory for hands-on analysis:
+1. **Create a New Directory**:
+   ```
+   mkdir ProjectName
+   cd ProjectName
+   ```
+2. **Organize Subdirectories**:
+   ```
+   mkdir raw_data metadata results temp
+   ```
+   - `raw_data/`: Store your FASTQ files.
+   - `metadata/`: Store your metadata file (e.g., `metadata.tsv`).
+   - `results/`: Save all analysis outputs.
+   - `temp/`: Use for intermediate files during the pipeline.
 
 ## Before You Start
 Before running the pipeline, ensure you have the following prepared:
@@ -30,90 +58,83 @@ Before running the pipeline, ensure you have the following prepared:
   ```
   #SampleID    Group    Treatment
   sample1      Control  None
-  sample2      Treated  DrugA
+  sample2      Treated  Trt1
   ```
-- Validate using the [QIIME 2 Metadata Validator](https://qiime2.org/metadata/).
-
 ---
 
-### 3. Download Database
-Use a pre-trained classifier compatible with your sequencing region (e.g., SILVA, Greengenes).  
-- **SILVA**:
-  ```bash
-  wget https://data.qiime2.org/2021.2/common/silva-138-99-nb-classifier.qza
+### 3. **Download Database** 
+**Available Databases for 16S rRNA Taxonomy Classification** (Choose one based on your analysis requirements and preferences)
+- **SILVA** (Last updated: July 2024):
   ```
-- **Greengenes**:
-  ```bash
-  wget https://data.qiime2.org/2021.2/common/gg-13-8-99-nb-classifier.qza
+  # Download reference sequence file
+  wget https://www.arb-silva.de/no_cache/download/archive/release_138_2/Exports/SILVA_138.2_SSURef_tax_silva.fasta.gz
+  
+  # Download reference taxonomy file
+  wget https://www.arb-silva.de/no_cache/download/archive/release_138_2/Exports/taxonomy/tax_slv_ssu_138.2.txt.gz
   ```
-- **UNITE (for fungal ITS)**:
-  ```bash
-  wget https://data.qiime2.org/2021.2/common/unite-ver8-99-classifier-01.12.2021.qza
+- **Greengenes2** (Last updated:Sep.2024):
   ```
-
----
-
-## Logging on to the HPC Server
-If using a high-performance computing (HPC) server for QIIME 2 analysis:
-
-### 1. Access the Server
-- Log in to your HPC server using SSH:
-  ```bash
-  ssh <username>@<hpc-server-address>
+  wget https://ftp.microbio.me/greengenes_release/current/2024.09.seqs.fna.gz
+  wget https://ftp.microbio.me/greengenes_release/current/2024.09.taxonomy.asv.tsv.gz
   ```
-  Example:
-  ```bash
-  ssh jdoe@hpc.university.edu
+- **RDP** (Last updated:Aug.2023):
   ```
-
-- If required, load the QIIME 2 module or activate the environment:
-  ```bash
-  module load qiime2/2021.2
-  ```
-  Or, if using Conda:
-  ```bash
-  conda activate qiime2-2021.2
+  wget https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/RDPClassifier_16S_trainsetNo19_QiimeFormat.zip
   ```
 
 ---
 
-## Setting up the Working Directory
-Create and organize your working directory for hands-on analysis:
-1. **Create a New Directory**:
-   ```bash
-   mkdir ~/qiime2_analysis
-   cd ~/qiime2_analysis
+### Upload Files to the Server**:
+   Use `scp` or `globus` to upload your raw data and metadata file:
    ```
-
-2. **Organize Subdirectories**:
-   ```bash
-   mkdir raw_data metadata results temp
-   ```
-   - `raw_data/`: Store your FASTQ files.
-   - `metadata/`: Store your metadata file (e.g., `metadata.tsv`).
-   - `results/`: Save all analysis outputs.
-   - `temp/`: Use for intermediate files during the pipeline.
-
-3. **Upload Files to the Server**:
-   Use `scp` or `rsync` to upload your raw data and metadata file:
-   ```bash
    scp /local/path/to/raw_data/* <username>@<hpc-server-address>:~/qiime2_analysis/raw_data/
    scp /local/path/to/metadata.tsv <username>@<hpc-server-address>:~/qiime2_analysis/metadata/
    ```
 
-4. **Verify Files**:
-   List the uploaded files to ensure everything is in place:
-   ```bash
-   ls -R ~/qiime2_analysis
-   ```
-
 ---
+## Active QIIME2
+- Load the QIIME 2 module if it's already installed in the HPC.
+  ```
+  module avail # 
+  module load qiime2
+  ```
+- Or, if using Conda:
+  ```
+  conda activate qiime2-2024.10
+  ```
 
 ## Pipeline Workflow
 
 ### 1. Input Preparation
-- Import raw sequencing data:
-  ```bash
+- Create a manifest file to import FASTQ files into QIIME2
+  ```
+  # Create a manifest file to import FASTQ files into QIIME 2
+# Navigate to the directory containing the fastq.gz files
+cd /path/to/fastq/files
+
+# Create the header for the manifest file
+echo "sample-id,absolute-filepath,direction" > manifest.csv
+
+# Add forward reads to the manifest file
+for i in *_R1_001.fastq.gz; do 
+    echo "${i/_S*/},$PWD/$i,forward" >> manifest.csv
+done
+
+# Add reverse reads to the manifest file
+for i in *_R2_001.fastq.gz; do 
+    echo "${i/_S*/},$PWD/$i,reverse" >> manifest.csv
+done
+
+# Replace underscores in sample IDs with dots (optional, for formatting consistency)
+awk 'BEGIN{FS=OFS=","} {gsub(/_/, ".", $1); print}' manifest.csv > manifest_cleaned.csv
+
+# Verify the manifest file
+cat manifest_cleaned.csv
+```
+
+- 
+- Import raw sequencing data (paired-end):
+  ```
   qiime tools import \
     --type 'SampleData[PairedEndSequencesWithQuality]' \
     --input-path raw_data/ \
