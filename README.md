@@ -40,13 +40,3 @@ For additional details, refer to the official QIIME 2 website: [QIIME 2 Installa
 
 ---
 
-## What You'll Learn and Achieve
-By following this tutorial, you will:
-
-1. Master the analysis and visualization of microbiome data, specifically for 16S rRNA amplicon sequencing.
-
-2. Explore different analysis methods, including taxonomic classification, diversity analysis, and statistical testing, supported by publication-ready visualizations.
-   
-3. Complete your entire project efficiently, with data processing and analysis taking approximately 3–4 hours, depending on the size of your dataset.
-   
-This tutorial equips you with practical skills to confidently analyze microbiome datasets and present your results effectively.
