@@ -8,5 +8,13 @@
 #
 #     $ conda deactivate
 
-conda activate qiime2-2024
-python qiime2_script.py --sample-folder /home/jing/IEH_VL00707_013025/rawdata --metadata-file /home/jing/IEH_VL00707_013025/rawdata/metadata.tsv --database /home/jing/db/rdp/rdp.qza --output-dir output
+conda activate qiime2-amplicon-2024.10
+
+python qiime2_script2.py \
+    --sample-folder /home/jing/IEH_VL00707_013025/rawdata \
+    --metadata-file /home/jing/IEH_VL00707_013025/rawdata/metadata.tsv \
+    --database /home/jing/db/rdp/rdp.qza \
+    --output-dir output \
+    --paired-end  
+
+
