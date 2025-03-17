@@ -10,6 +10,11 @@
 
 conda activate qiime2-amplicon-2024.10
 
+./qiime2_pipeline.sh /home/jing/IEH_VL00707_021225/rawdata/ /home/jing/IEH_VL00707_021225/results/
+
+python summarize_taxonomy.py /home/jing/IEH_VL00707_021225/results/feature_table.tsv /home/jing/IEH_VL00707_021225/results/taxonomy.tsv /home/jing/IEH_VL00707_021225/results/output_directory/
+
+
 python qiime2_script2.py \
     --sample-folder /home/jing/IEH_VL00707_013025/rawdata \
     --metadata-file /home/jing/IEH_VL00707_013025/rawdata/metadata.tsv \
