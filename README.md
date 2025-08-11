@@ -145,14 +145,11 @@ Before running the pipeline, ensure you have the following prepared:
 
 ### 1. Input Preparation
 - Create a manifest file to import FASTQ files into QIIME2
-  ```
-  # Create a manifest file to import FASTQ files into QIIME 2
-# Navigate to the directory containing the fastq.gz files
+- Navigate to the directory containing the fastq.gz files
+```
 cd /path/to/fastq/files
-
 # Create the header for the manifest file
 echo "sample-id,absolute-filepath,direction" > manifest.csv
-
 # Add forward reads to the manifest file
 for i in *_R1_001.fastq.gz; do 
     echo "${i/_S*/},$PWD/$i,forward" >> manifest.csv
@@ -162,7 +159,6 @@ done
 for i in *_R2_001.fastq.gz; do 
     echo "${i/_S*/},$PWD/$i,reverse" >> manifest.csv
 done
-
 # Replace underscores in sample IDs with dots (optional, for formatting consistency)
 awk 'BEGIN{FS=OFS=","} {gsub(/_/, ".", $1); print}' manifest.csv > manifest_cleaned.csv
 
@@ -170,7 +166,6 @@ awk 'BEGIN{FS=OFS=","} {gsub(/_/, ".", $1); print}' manifest.csv > manifest_clea
 cat manifest_cleaned.csv
 ```
 
-- 
 - Import raw sequencing data (paired-end):
   ```
   qiime tools import \
